@@ -1,5 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
 <div id="app">
 	<h1>Sistema Financeiro (SISFIN)</h1>
 	<h2>Módulo de Integração ao SISRH</h2>
@@ -16,11 +17,13 @@
 	<div class="div-checkbox">
 		<button v-on:click="listarEmpregados">Calcular Folha</button>
 		<div style="color: red">{{errorMessage}}</div>
-		<input type="checkbox" id="ativo" value="ativo">
-		<label for="ativo">Ativo</label>
-
-		<input type="checkbox" id="inativo" value="inativo">
-		<label for="inativo">Inativo</label>
+		<div>{{ selected }}</div>
+		<select v-model="selected">
+			<option disabled value="">Please select one</option>
+			<option>Todos</option>
+			<option>ativo</option>
+			<option>inativo</option>
+		</select>
 	</div>
 
 	<div v-if="totalFolha > 0">
@@ -47,7 +50,8 @@
 			senha: '123456',
 			tokenJWT: 'vazio',
 			errorMessage: "",
-			listaEmpregado: []
+			listaEmpregado: [],
+			selected: "todos"
 		},
 		methods: {
 			login: function (event) {
@@ -63,13 +67,14 @@
 					});
 			},
 			listarEmpregados: function (event) {
-				axios.get(this.url + '/empregado/status/inativo', { 'headers': { 'jwt': this.tokenJWT } })
+				axios.get(this.url + '/empregado/status/' + this.selected, { 'headers': { 'jwt': this.tokenJWT } })
 					.then(response => this.listaEmpregado = response.data)
 					.catch(error => {
 						this.errorMessage = error.message;
-						1
 						console.error("There was an error!", error);
 					});
+
+					console.log(this.url + '/empregado/status/' + this.selected);
 			}
 		}
 		,
@@ -86,13 +91,13 @@
 	})
 </script>
 <style lang="sass">
-	body {
-		font: normal 12px Verdana, Arial, sans-serif;
-	}
+body {
+	font: normal 12px Verdana, Arial, sans-serif;
+}
 
-	.div-checkbox {
-		border: 1px solid blue;
-		display: flex;
-		flex-direction: row;
-	}
+.div-checkbox {
+	border: 1px solid blue;
+	display: flex;
+	flex-direction: row;
+}
 </style>
