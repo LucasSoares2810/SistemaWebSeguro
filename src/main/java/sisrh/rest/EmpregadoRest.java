@@ -14,13 +14,49 @@ import sisrh.dto.Empregado;
 @Path("/empregado")
 public class EmpregadoRest {
 
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listarEmpregados() throws Exception {
 		List<Empregado> lista = Banco.listarEmpregados();
 		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {
 		};
 		return Response.ok().entity(entity).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarEmpregadosAtivos() throws Exception {
+		List<Empregado> lista = Banco.listarEmpregadosAtivos();
+		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {
+		};
+		return Response.ok().entity(entity).build();
+	}*/
+	
+	@GET
+	@Path("/status/{status}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarEmpregados(@PathParam("status") String status) throws Exception {
+		if(status.equals("ativo")) {
+			List<Empregado> lista = Banco.listarEmpregadosAtivos();
+			GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {
+			};
+			return Response.ok().entity(entity).build();
+		}
+		
+		else if(status.equals("inativo")) {
+			List<Empregado> lista = Banco.listarEmpregadosInativos();
+			GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {
+			};
+			return Response.ok().entity(entity).build();
+		}
+		
+		else {
+			List<Empregado> lista = Banco.listarEmpregados();
+			GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {
+			};
+			return Response.ok().entity(entity).build();
+		}
+		
 	}
 
 	@GET

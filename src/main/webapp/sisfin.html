@@ -12,8 +12,17 @@
 		tokenJWT }}</div>
 	<hr />
 	<h3>Folha de Pagamento</h3>
-	<button v-on:click="listarEmpregados">Calcular Folha</button>
-	<div style="color: red">{{errorMessage}}</div>
+
+	<div class="div-checkbox">
+		<button v-on:click="listarEmpregados">Calcular Folha</button>
+		<div style="color: red">{{errorMessage}}</div>
+		<input type="checkbox" id="ativo" value="ativo">
+		<label for="ativo">Ativo</label>
+
+		<input type="checkbox" id="inativo" value="inativo">
+		<label for="inativo">Inativo</label>
+	</div>
+
 	<div v-if="totalFolha > 0">
 		<hr />
 		<div style="color: blue">Total de Empregados: {{ totalEmpregados
@@ -54,7 +63,7 @@
 					});
 			},
 			listarEmpregados: function (event) {
-				axios.get(this.url + '/empregado', { 'headers': { 'jwt': this.tokenJWT } })
+				axios.get(this.url + '/empregado/status/inativo', { 'headers': { 'jwt': this.tokenJWT } })
 					.then(response => this.listaEmpregado = response.data)
 					.catch(error => {
 						this.errorMessage = error.message;
@@ -77,7 +86,13 @@
 	})
 </script>
 <style lang="sass">
-body {
-	font: normal 12px Verdana, Arial, sans-serif;
-}
+	body {
+		font: normal 12px Verdana, Arial, sans-serif;
+	}
+
+	.div-checkbox {
+		border: 1px solid blue;
+		display: flex;
+		flex-direction: row;
+	}
 </style>
