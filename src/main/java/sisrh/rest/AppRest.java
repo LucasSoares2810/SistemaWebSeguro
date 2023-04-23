@@ -29,6 +29,7 @@ public class AppRest extends Application {
 		resources.add(EmpregadoRest.class);
 		resources.add(SolicitacaoRest.class);
 		resources.add(LoginUnicoRest.class);
+		resources.add(UsuarioRest.class);
 		
 		
 		resources.add(ApiListingResource.class);
